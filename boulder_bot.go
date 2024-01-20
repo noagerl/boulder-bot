@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -49,25 +48,47 @@ func main() {
 
 		// Create a new MessageConfig. We don't have text yet,
 		// so we leave it empty.
-		msg := tg.NewMessage(update.Message.Chat.ID, "")
+		// msg := tg.NewMessage(update.Message.Chat.ID, "")
 
 		// Extract the command from the Message.
 		switch update.Message.Command() {
 		case "help":
-			msg.Text = "Currently only /status is supported."
+			send_msg(bot, update.Message.Chat.ID, "Currently only /status is supported.")
 		case "status":
-			msg.Text = "Will create next poll at 2024-01-20 18:00"
-		default:
-			msg.Text = fmt.Sprintf("I don't know how to %s", update.Message.Command())
+			send_msg(bot, update.Message.Chat.ID, "Will create next poll at 2024-01-20 18:00")
+		case "boulderpoll":
+			start_boulder_poll(bot, update.Message.Chat.ID)
 		}
 
 		// Okay, we're sending our message off! We don't care about the message
 		// we just sent, so we'll discard it.
-		if _, err := bot.Send(msg); err != nil {
-			// Note that panics are a bad way to handle errors. Telegram can
-			// have service outages or network errors, you should retry sending
-			// messages or more gracefully handle failures.
-			panic(err)
-		}
+		// if _, err := bot.Send(msg); err != nil {
+		// 	// Note that panics are a bad way to handle errors. Telegram can
+		// 	// have service outages or network errors, you should retry sending
+		// 	// messages or more gracefully handle failures.
+		// 	panic(err)
+		// }
+	}
+}
+
+func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
+	// Okay, we're sending our message off! We don't care about the message
+	// we just sent, so we'll discard it.
+	msg := tg.NewMessage(chat_id, text)
+	if _, err := bot.Send(msg); err != nil {
+		// Note that panics are a bad way to handle errors. Telegram can
+		// have service outages or network errors, you should retry sending
+		// messages or more gracefully handle failures.
+		panic(err)
+	}
+}
+
+func start_boulder_poll(bot *tg.BotAPI, chat_id int64) {
+	msg := tg.NewPoll(chat_id, "What's the largest object in the universe?", "The Sun", "Sagittarius A*", "PSR J0952–0607", "Your mom")
+	if _, err := bot.Send(msg); err != nil {
+		// Note that panics are a bad way to handle errors. Telegram can
+		// have service outages or network errors, you should retry sending
+		// messages or more gracefully handle failures.
+		panic(err)
 	}
 }
