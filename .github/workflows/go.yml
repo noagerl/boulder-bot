@@ -22,13 +22,21 @@ jobs:
         go-version: '1.21.6'
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v .
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v .
     - name: Stats
       run: |
         pwd
         du -h /home/runner
         ls -alh /home/runner
         tree /home/runner          
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.2.0
+      with:
+        name: boulder-bot
+        path: |
+          /home/runner/work/boulder-bot/boulder-bot/boulder-bot
+          /home/runner/work/boulder-bot/boulder-bot/boulder-bot.service
