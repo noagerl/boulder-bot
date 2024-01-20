@@ -13,7 +13,6 @@ import (
 
 func main() {
 	godotenv.Load()
-	log.Printf("beep boop!")
 
 	bot, err := tg.NewBotAPI(os.Getenv("API_TOKEN"))
 	if err != nil {
@@ -44,7 +43,7 @@ func main() {
 		task := gocron.NewTask(func() {
 			// -1002119201796 is the chat id of our boulder_bot_test chat
 			// this needs to be somehow registered, stored and loaded on startup
-			start_boulder_poll(bot, -1002119201796)
+			startBoulderPoll(bot, -1002119201796)
 		})
 		j, err := scheduler.NewJob(schedule, task)
 		if err != nil {
@@ -77,11 +76,11 @@ func main() {
 		// Extract the command from the Message.
 		switch update.Message.Command() {
 		case "help":
-			send_msg(bot, update.Message.Chat.ID, "Currently only /status is supported.")
+			sendMsg(bot, update.Message.Chat.ID, "Currently only /status is supported.")
 		case "status":
-			send_msg(bot, update.Message.Chat.ID, "Will create next poll at 2024-01-20 18:00")
+			sendMsg(bot, update.Message.Chat.ID, "Will create next poll at 2024-01-20 18:00")
 		case "boulderpoll":
-			start_boulder_poll(bot, update.Message.Chat.ID)
+			startBoulderPoll(bot, update.Message.Chat.ID)
 		}
 
 		// Okay, we're sending our message off! We don't care about the message
@@ -95,11 +94,11 @@ func main() {
 	}
 }
 
-func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
-	log.Printf("ChatID:%d", chat_id)
+func sendMsg(bot *tg.BotAPI, chatId int64, text string) {
+	log.Printf("ChatID:%d", chatId)
 	// Okay, we're sending our message off! We don't care about the message
 	// we just sent, so we'll discard it.
-	msg := tg.NewMessage(chat_id, text)
+	msg := tg.NewMessage(chatId, text)
 	if _, err := bot.Send(msg); err != nil {
 		// Note that panics are a bad way to handle errors. Telegram can
 		// have service outages or network errors, you should retry sending
@@ -108,10 +107,10 @@ func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
 	}
 }
 
-func start_boulder_poll(bot *tg.BotAPI, chat_id int64) {
-	day_poll := tg.SendPollConfig{
+func startBoulderPoll(bot *tg.BotAPI, chatId int64) {
+	dayPoll := tg.SendPollConfig{
 		BaseChat: tg.BaseChat{
-			ChatID: chat_id,
+			ChatID: chatId,
 		},
 		Question:              "Ich will bouldern am",
 		Options:               []string{"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"},
@@ -119,9 +118,9 @@ func start_boulder_poll(bot *tg.BotAPI, chat_id int64) {
 		AllowsMultipleAnswers: true,
 	}
 
-	location_poll := tg.SendPollConfig{
+	locationPoll := tg.SendPollConfig{
 		BaseChat: tg.BaseChat{
-			ChatID: chat_id,
+			ChatID: chatId,
 		},
 		Question:              "Ich will bouldern in",
 		Options:               []string{"Seestadt", "Wienerberg", "Hauptbahnhof", "Hannovermarkt", "Blockfabrik"},
@@ -129,13 +128,13 @@ func start_boulder_poll(bot *tg.BotAPI, chat_id int64) {
 		AllowsMultipleAnswers: true,
 	}
 
-	if _, err := bot.Send(day_poll); err != nil {
+	if _, err := bot.Send(dayPoll); err != nil {
 		// Note that panics are a bad way to handle errors. Telegram can
 		// have service outages or network errors, you should retry sending
 		// messages or more gracefully handle failures.
 		panic(err)
 	}
-	if _, err := bot.Send(location_poll); err != nil {
+	if _, err := bot.Send(locationPoll); err != nil {
 		// Note that panics are a bad way to handle errors. Telegram can
 		// have service outages or network errors, you should retry sending
 		// messages or more gracefully handle failures.
