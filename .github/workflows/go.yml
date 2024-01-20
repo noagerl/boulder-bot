@@ -36,7 +36,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.2.0
       with:
-        name: boulder-bot
+        name: boulder-bot_${{ github.sha }}
         path: |
           /home/runner/work/boulder-bot/boulder-bot/boulder-bot
           /home/runner/work/boulder-bot/boulder-bot/boulder-bot.service
