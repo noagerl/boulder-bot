@@ -1,0 +1,13 @@
+[Unit]
+Description=Telegram Bot for the Boulder Ping Group
+After=network.target
+
+[Service]
+Type=simple
+User=
+Restart=always
+RestartSec=5
+ExecStart=/usr/local/boulder-bot
+
+[Install]
+WantedBy=multi-user.target

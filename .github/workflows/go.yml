@@ -40,3 +40,4 @@ jobs:
         path: |
           /home/runner/work/boulder-bot/boulder-bot/boulder-bot
           /home/runner/work/boulder-bot/boulder-bot/boulder-bot.service
+          /home/runner/work/boulder-bot/boulder-bot/install.sh
