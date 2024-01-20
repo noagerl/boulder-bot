@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 	"os"
+	"time"
 
+	"github.com/go-co-op/gocron/v2"
 	"github.com/joho/godotenv"
 
 	tg "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -32,6 +34,28 @@ func main() {
 
 	// Start polling Telegram for updates.
 	updates := bot.GetUpdatesChan(updateConfig)
+
+	scheduler, err := gocron.NewScheduler()
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		schedule := gocron.WeeklyJob(1, gocron.NewWeekdays(time.Sunday), gocron.NewAtTimes(gocron.NewAtTime(11, 0, 0)))
+		task := gocron.NewTask(func() {
+			// -1002119201796 is the chat id of our boulder_bot_test chat
+			// this needs to be somehow registered, stored and loaded on startup
+			start_boulder_poll(bot, -1002119201796)
+		})
+		j, err := scheduler.NewJob(schedule, task)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Printf("Added job %s with ID %s", j.Name(), j.ID())
+		log.Printf("Starting scheduler ...")
+		scheduler.Start()
+		log.Printf("Scheduler started!")
+	}
 
 	// Let's go through each update that we're getting from Telegram.
 	for update := range updates {
@@ -72,6 +96,7 @@ func main() {
 }
 
 func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
+	log.Printf("ChatID:%s", chat_id)
 	// Okay, we're sending our message off! We don't care about the message
 	// we just sent, so we'll discard it.
 	msg := tg.NewMessage(chat_id, text)
