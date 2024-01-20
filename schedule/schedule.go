@@ -12,7 +12,7 @@ func main() {
 	s, err := gocron.NewScheduler()
 
 	if err != nil {
-		// handle error
+		log.Fatal(err)
 	}
 
 	defer func() { _ = s.Shutdown() }()
@@ -25,7 +25,7 @@ func main() {
 
 	j, err := s.NewJob(schedule, task)
 	if err != nil {
-		// handle error
+		log.Fatal(err)
 	}
 
 	log.Printf("Added job %s with ID %s", j.Name(), j.ID())
