@@ -84,8 +84,33 @@ func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
 }
 
 func start_boulder_poll(bot *tg.BotAPI, chat_id int64) {
-	msg := tg.NewPoll(chat_id, "What's the largest object in the universe?", "The Sun", "Sagittarius A*", "PSR J0952–0607", "Your mom")
-	if _, err := bot.Send(msg); err != nil {
+	day_poll := tg.SendPollConfig{
+		BaseChat: tg.BaseChat{
+			ChatID: chat_id,
+		},
+		Question:              "Ich will bouldern am",
+		Options:               []string{"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"},
+		IsAnonymous:           false,
+		AllowsMultipleAnswers: true,
+	}
+
+	location_poll := tg.SendPollConfig{
+		BaseChat: tg.BaseChat{
+			ChatID: chat_id,
+		},
+		Question:              "Ich will bouldern in",
+		Options:               []string{"Seestadt", "Wienerberg", "Hauptbahnhof", "Hannovermarkt", "Blockfabrik"},
+		IsAnonymous:           false,
+		AllowsMultipleAnswers: true,
+	}
+
+	if _, err := bot.Send(day_poll); err != nil {
+		// Note that panics are a bad way to handle errors. Telegram can
+		// have service outages or network errors, you should retry sending
+		// messages or more gracefully handle failures.
+		panic(err)
+	}
+	if _, err := bot.Send(location_poll); err != nil {
 		// Note that panics are a bad way to handle errors. Telegram can
 		// have service outages or network errors, you should retry sending
 		// messages or more gracefully handle failures.
