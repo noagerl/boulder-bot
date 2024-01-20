@@ -8,6 +8,8 @@
 *.so
 *.dylib
 boulder-bot
+boulder-bot_x86
+boulder-bot_arm64
 
 # Test binary, built with `go test -c`
 *.test

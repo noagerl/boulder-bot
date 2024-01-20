@@ -10,7 +10,8 @@ else
     printf Environment="API_TOKEN=%s" $api_token | sudo tee -a /etc/systemd/system/boulder-bot.service
 fi
 
-sudo cp -fv ./boulder-bot /usr/local/boulder-bot
+# TODO copy for the right architecture
+sudo cp -fv ./boulder-bot_arm64 /usr/local/boulder-bot
 
 sudo systemctl enable boulder-bot.service
 sudo systemctl start boulder-bot.service
