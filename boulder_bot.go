@@ -96,7 +96,7 @@ func main() {
 }
 
 func send_msg(bot *tg.BotAPI, chat_id int64, text string) {
-	log.Printf("ChatID:%s", chat_id)
+	log.Printf("ChatID:%d", chat_id)
 	// Okay, we're sending our message off! We don't care about the message
 	// we just sent, so we'll discard it.
 	msg := tg.NewMessage(chat_id, text)
