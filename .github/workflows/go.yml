@@ -31,5 +31,5 @@ jobs:
       uses: actions/upload-artifact@v4.2.0
       with:
         name: boulder-bot
-        path: boulder-bot
+        path: /home/runner/work/boulder-bot/boulder-bot
           
