@@ -76,7 +76,7 @@ func main() {
 		// Extract the command from the Message.
 		switch update.Message.Command() {
 		case "help":
-			sendMsg(bot, update.Message.Chat.ID, "Currently only /status is supported.")
+			sendMsg(bot, update.Message.Chat.ID, "Currently only /status and /boulderpoll is supported.")
 		case "status":
 			sendMsg(bot, update.Message.Chat.ID, "Will create next poll at 2024-01-20 18:00")
 		case "boulderpoll":
