@@ -26,10 +26,9 @@ jobs:
 
     - name: Test
       run: go test -v ./...
-      
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v4.2.0
-      with:
-        name: boulder-bot
-        path: /home/runner/work/boulder-bot/boulder-bot
-          
+    - name: Stats
+      run: |
+        pwd
+        du -h /home/runner
+        ls -alh /home/runner
+        tree /home/runner          
