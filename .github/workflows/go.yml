@@ -27,7 +27,7 @@ jobs:
     - name: Test
       run: go test -v .
 
-    - name: Build for ARM 
+    - name: Build for ARM 64
       run: env GOOS=linux GOARCH=arm64 go build -v -o boulder-bot_arm64 .
 
     - name: Build for ARM 

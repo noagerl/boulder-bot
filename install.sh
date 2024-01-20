@@ -12,6 +12,7 @@ fi
 
 # TODO copy for the right architecture
 sudo cp -fv ./boulder-bot_arm /usr/local/boulder-bot
+sudo chmod +x /usr/local/boulder-bot
 
 sudo systemctl enable boulder-bot.service
 sudo systemctl start boulder-bot.service
