@@ -26,13 +26,7 @@ jobs:
 
     - name: Test
       run: go test -v .
-    - name: Stats
-      run: |
-        pwd
-        du -h /home/runner
-        ls -alh /home/runner
-        tree /home/runner          
-        
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.2.0
       with:
