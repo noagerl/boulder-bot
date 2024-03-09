@@ -123,7 +123,7 @@ func startBoulderPoll(bot *tg.BotAPI, chatId int64) {
 			ChatID: chatId,
 		},
 		Question:              "Ich will bouldern in",
-		Options:               []string{"Seestadt", "Wienerberg", "Hauptbahnhof", "Hannovermarkt", "Blockfabrik"},
+		Options:               []string{"Seestadt🌊", "Wienerberg🏔", "Hauptbahnhof🚉", "Hannovergasse🏙", "Blockfabrik🧱"},
 		IsAnonymous:           false,
 		AllowsMultipleAnswers: true,
 	}
